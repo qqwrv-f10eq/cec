@@ -24,28 +24,39 @@
 
 	`git clone https://github.com/aktah/cec.git`
 
-* ใช้ makefile เพื่อคอมไพและทดสอบ
-	* Setup testing environment
+* ใช้ makefile เพื่อคอมไพและทดสอบ (ควรมี cmake เวอร์ชั่นที่ไม่ต่ำกว่า 3.0) 
 
-		`make test-setup`
-	* เพื่อเตรียมไฟล์สำหรับทดสอบ
+	* เพื่อเตรียมไฟล์สำหรับทดสอบ 
+	 
+	 `make test-setup`
 
-		`make build-inside`
+
+	* เพื่อทดสอบ
+	
+	 `make test-native`
+
+
 	* เพื่อสร้างไฟล์สำหรับบิ้วปลั๊กอิน (ควรมี cmake เวอร์ชั่นที่ไม่ต่ำกว่า 3.0)
-   - หรือใช้คำสั่งตามนี้แทน
-      * mkdir build
-      * cd build
-      * cmake .. -G "Visual Studio 10 2010"
+	 
+	 `make build-inside`
+
+	   - หรือใช้คำสั่งตามนี้แทน
+	      * mkdir build
+	      * cd build
+	      * cmake .. -G "Visual Studio 10 2010"
+     
      
 ## ตัวอย่าง
 **ปัญหาและการติดตั้ง**
 
 * ปัญหา
 
-- ก่อนใช้งาน
+ก่อนใช้งาน
+
 ![ก่อนใช้งาน](https://i.imgur.com/M14TACI.png)
 
-- หลังใช้งาน
+หลังใช้งาน
+
 ![หลังใช้งาน](https://i.imgur.com/UiuOF5B.png)
 
 * การติดตั้ง
