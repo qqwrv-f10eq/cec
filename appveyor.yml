@@ -28,8 +28,6 @@ artifacts:
 
   
 deploy:
-  release: v1.0-latest
-  description: 'โค้ดล่าสุดจาก CEFix Repository'
   provider: GitHub
   auth_token:
     secure: j+0h0w3HGoF5ZEb3kCkz/i6Tknyak31ZiL10LMlFlFymoxzmssd7Gapy2VZg/WCC
