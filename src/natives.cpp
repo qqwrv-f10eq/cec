@@ -110,7 +110,6 @@ int Natives::CE_Convert(AMX *amx, cell *params)
 			if (text[i] == '{' && next_space < j && text[next_space] == '}') 
 			{
 				char EmbledColor[6]; 
-				int local_vowel = 0;
 				subc(text, i+1, 6, EmbledColor);
 				for (int x = last_check + 1; x < i; x++) 
 				{
