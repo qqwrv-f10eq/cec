@@ -31,10 +31,6 @@
       {
         "secure": "NM4kJ4TILq2fQuzyMtmfu98/TdPyLUo6IOLG6+XC9FoMfPrDIF7d7cJzE12/0KIPcDDcWvNJ81fnPVZk4wDgoEMP07qzIoRo/Ts2cOHS7uMXlETtJVt7lJ4KKx9YpbNFeHKx1uKwWlP7wbjvM5QdVexxYJXcSKdxDt+VCOtOuTDs0NowG9rK5HVvVUntAASTSjNGbGSHjIh2a9WlsPjhbNzqXw3ujqeX2UMFnEDjwjq79b/gq7T1vjHQJ0/4vhZrG17pEe4VP9q0Qq5dMflQ4txe6ZNYw7fKCYc3as4NoEgiZgKyBmqYqmkocwFwYyFaRYww3tCqfWm3gxNAsz2Soxke6b7sLZA2rrZRRvJN++dGUGA5blnxC8yxFF8ClHCB5KkxDnxSeLIXXLSLDWzoohQ5Ox3pZq2S+OCnGFZFjA9wIVaShOKdfsaAbookqEwXvjG7elQjMtfCB7QkG9lY5mt10sBQBHaefXj5m6CTVziuT8vu92ohqKGqzL3bkO1NCMLFRUFmHYs1EXVX8nhVzpDV/AVCa/Lw+/KLXoNS7mctkk5n1PQ8VgXt0TGavV2xFLv9XSVmPobX7m7/3IFsGwEX4OGiDaUA0iT51ndEys3L7NYCBZ7dFBVd8QeG7Ivily7e/EVvoxRm24e4PSATdU+/9AfC760/wQVqt//34L8="
       },
-      "on":
-      {
-        "all_branches": true
-      }
       "skip_cleanup": true
     }
   ]
