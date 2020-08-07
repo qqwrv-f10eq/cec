@@ -27,7 +27,8 @@
       "provider": "bintray",
       "file": "bintray.json",
       "user": "aktah",
-      "key": {
+      "key": 
+      {
         "secure": "eCgKlglIoraKi70HO7FxtsHiQgTrBAuYB9SW0hHQm8ek4RBy68oDHfbVw/qNXyfGlZnR213tLs4WV2Mtkd8fpoEUL0GNr9D4Cy/gxMtQuZZq+DmW7Qf3Z40M95GLCpRht+gRr+2vjSD8JttzozlGVQnflX4Lp2/Tkwze464x7MNbQlkfZpz/98pb3IgQBBnvH3HsE0ARaI5HWRNsa4TIdkqX7GdhN+R0VQYXQA6/H37lVguLOdESadjbMDgt/APYnc6iYI3YL4z4tZJkqxq75bCPYZ/3rQCmLIzp/Hv/G7/zsxDs2B5f1DCYCj9bQm934I+BUrSKnyv44YVqOeLq/WuUJi0bg2cPtBFdnajg8aSHP/LDBgSkPUFTVCCWvHIEyhc+nv6ZneHCD9CtTezQcrqxKEEOk5sUYjZqbrZYOzc3ZBpR39DfT3nzrSRY2C7h46smwf8Soppk6XiPmhs7X0TAN0qGYq/xmz74ohQpuGjao6LuRLxCAhMaoCYBHmAKGwblxZ+PT53ZzuGYfDnq84Ba+J7WqWPeyVFCnG1ad/t92NJ8mk39AHfT+faPG0JhdIvMNuhsElYwZd0Wfm/1JNsn6UfYTcVJcnmI/lopAg/vgi9klG8fkw6mVO1n3CMhVJvX4lABs6npBEfz3lCCFhLhoL8NFpCXcc6oPTufwqk="
       },
       "skip_cleanup": true
