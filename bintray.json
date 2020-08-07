@@ -2,8 +2,7 @@
   "package": {
     "name": "builds",
     "repo": "cec",
-    "subject": "aktah",
-    "vcs_url": "https://github.com/aktah/cec.git"
+    "subject": "aktah"
   },
   "version": {
     "name": "v1.0"
