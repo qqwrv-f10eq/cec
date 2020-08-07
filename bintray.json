@@ -6,9 +6,7 @@
     "vcs_url": "https://github.com/aktah/cec.git"
   },
   "version": {
-    "name": "CEC Plugin v1.2",
-    "desc": "ทดสอบการปล่อยปลั๊กอิน #3",
-    "vcs_tag": "v1.2"
+    "name": "v1.0"
   },
   "files": [
     {
