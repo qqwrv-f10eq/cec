@@ -1,0 +1,30 @@
+{
+  "user": "aktah",
+  "repo": "cec",
+  "entry": "../test.pwn",
+  "output": "gamemodes/test.amx",
+  "dependencies": ["sampctl/samp-stdlib"],
+  "dev_dependencies": ["pawn-lang/YSI-Includes"],
+  "resources": [
+    {
+      "name": "cec.so",
+      "archive": false,
+      "platform": "linux"
+    },
+    {
+      "name": "cec.dll",
+      "archive": false,
+      "platform": "windows"
+    }
+  ],
+  "local": true,
+  "runtime": {
+    "gamemodes": ["test"],
+    "plugins": ["cec"],
+    "rcon_password": ";,JoTh856/:?",
+    "port": 7777,
+    "hostname": "test",
+    "maxplayers": 32,
+    "mode": "y_testing"
+  }
+}

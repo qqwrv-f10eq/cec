@@ -1,0 +1,20 @@
+version: "{build}"
+image: 
+  - Visual Studio 2015
+
+configuration:
+  - Release
+
+install:
+  - git submodule update --init --recursive .
+
+before_build:
+  - mkdir build && cd build
+  - cmake .. -G "Visual Studio 10 2010"
+
+build_script:
+  - cmake --build . --config %CONFIGURATION%
+
+artifacts:
+  - path: test/plugins/$(configuration)/cec.dll
+    name: Plugin

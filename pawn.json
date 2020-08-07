@@ -1,0 +1,23 @@
+{
+  "user": "aktah",
+  "repo": "cec",
+  "entry": "test.pwn",
+  "output": "test/gamemodes/test.amx",
+  "dependencies": ["sampctl/samp-stdlib"],
+  "dev_dependencies": ["pawn-lang/YSI-Includes"],
+  "runtime": {
+    "plugins": ["aktah/cec"]
+  },
+  "resources": [
+    {
+      "name": "cec.so",
+      "archive": false,
+      "platform": "linux"
+    },
+    {
+      "name": "cec.dll",
+      "archive": false,
+      "platform": "windows"
+    }
+  ]
+}

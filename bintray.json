@@ -1,0 +1,23 @@
+{
+  "package": {
+    "name": "builds",
+    "repo": "cec",
+    "subject": "aktah",
+    "vcs_url": "https://github.com/aktah/cec.git"
+  },
+  "version": {
+    "name": "CEC Plugin v1.2",
+    "desc": "ทดสอบการปล่อยปลั๊กอิน #3",
+    "vcs_tag": "v1.2"
+  },
+  "files": [
+    {
+      "includePattern": "test/plugins/cec.so",
+      "uploadPattern": "$1",
+      "matrixParams": {
+        "override": 1
+      }
+    }
+  ],
+  "publish": true
+}
