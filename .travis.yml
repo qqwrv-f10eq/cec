@@ -1,37 +1,27 @@
-{
-  "language": "cpp",
-  "os": [
-    "linux"
-  ],
-  "dist": "xenial",
-  "compiler": [
-    "gcc"
-  ],
-  "addons": {
-    "apt": {
-      "packages": [
-        "g++-multilib"
-      ]
-    }
-  },
-  "before_script": [
-    "mkdir build && cd build",
-    "cmake .."
-  ],
-  "script": [
-    "make",
-    "cd .."
-  ],
-  "deploy": [
-    {
-      "provider": "bintray",
-      "file": "bintray.json",
-      "user": "aktah",
-      "key": 
-      {
-        "secure": "Plt3Tv1PLKyOKRONpQ0RP71nvIC9rKF0LrzFQK1u/QZV21Qa7lfmEdHd1g06gqWqr5rUtrNQKnnJOS3fANPdXLfmkseKghXy/7ESN41r0VeODJU8zBP3TNnKGHv5S+Cvw74ddq6PsORZERasw+L4+xPJ89x4WhgSXqMZz0m2hjN2v6XfhwV0Zng6aOhhfqrAgnZzDxzgyhr55bHvG9rE0fgciRY1+xlfXdQV4KLqNh7VKuj73JMK6KEzwyNc8poD++rmlKJzIccWjQk1s1ZB3Ta22VSkAVMErzv9U+0GIBksiZzQBmls/G825Jtr27wP4xPZvm94UL4bkAlUBJV1s6DBXAyGdA4z7N0/IVaha82/UHv+dnL0+6ZkC1/z3X3wxQ0S+5iYq94OwOkbdpwVJQEy1VbbsCnqoB35zSB+Lk8bTORJdc9nE7jp7ttVljsGiFKmqt4gFJ98G5BvlhEtaEZ5DsD/OEokJHYrUsebXzrXSf7ErIfeMneNC/BIfNLC6o1ZmqUvVJB5tTEbzk+wObUzNgtlU42MJt2Xq7qWtW89N69L8duk7JPEQ6twiXA9BXe0kCeKMa3HeadKLzId2SjbefP+oqmhB8bwSXrfc4keEBf/pB1k/TbCo/dxg5Twtnv+xtrJaSC5paEV2Bg+6A3DwwOnR+tMQe1SJ3mi1PI="
-      },
-      "skip_cleanup": true
-    }
-  ]
-}
+language: cpp
+os:
+- linux
+dist: xenial
+compiler:
+- gcc
+addons:
+  apt:
+    packages:
+    - g++-multilib
+before_script:
+- mkdir build && cd build
+- cmake ..
+script:
+- make
+- cd ..
+
+deploy:
+  matrix:
+  - provider: bintray
+    file: bintray.json
+    user: aktah
+    key:
+      secure: Plt3Tv1PLKyOKRONpQ0RP71nvIC9rKF0LrzFQK1u/QZV21Qa7lfmEdHd1g06gqWqr5rUtrNQKnnJOS3fANPdXLfmkseKghXy/7ESN41r0VeODJU8zBP3TNnKGHv5S+Cvw74ddq6PsORZERasw+L4+xPJ89x4WhgSXqMZz0m2hjN2v6XfhwV0Zng6aOhhfqrAgnZzDxzgyhr55bHvG9rE0fgciRY1+xlfXdQV4KLqNh7VKuj73JMK6KEzwyNc8poD++rmlKJzIccWjQk1s1ZB3Ta22VSkAVMErzv9U+0GIBksiZzQBmls/G825Jtr27wP4xPZvm94UL4bkAlUBJV1s6DBXAyGdA4z7N0/IVaha82/UHv+dnL0+6ZkC1/z3X3wxQ0S+5iYq94OwOkbdpwVJQEy1VbbsCnqoB35zSB+Lk8bTORJdc9nE7jp7ttVljsGiFKmqt4gFJ98G5BvlhEtaEZ5DsD/OEokJHYrUsebXzrXSf7ErIfeMneNC/BIfNLC6o1ZmqUvVJB5tTEbzk+wObUzNgtlU42MJt2Xq7qWtW89N69L8duk7JPEQ6twiXA9BXe0kCeKMa3HeadKLzId2SjbefP+oqmhB8bwSXrfc4keEBf/pB1k/TbCo/dxg5Twtnv+xtrJaSC5paEV2Bg+6A3DwwOnR+tMQe1SJ3mi1PI=
+    skip_cleanup: true
+  key:
+    secure: XI1Sk19WA8lZHvprzMmzgwPKi80dbQP9eSM8C6SO7SmpFKr71RkXcQP/aJmV1nsZNKeB+8ZICWDVUoOZqh7Ri2mk82RWm2481Imt243XpjUGKSJSsIGT+RGpGIfKcP97zjY/jpsl3nkZRYoFR8fPwL2y0i4fVu1b37eipCf5ibFA+uUDiO/LBbL2dyehmQX2SgCTn2uT6l5tHRR2XeiNDeJWk30CbFI7aHxtJetmIYzzK8+nrXsEmUQu7a1cT0DRTStJB8n6L6qsn2G4sUgUy5YezB4yP7468AA36lF92jE0rh4gQI2leSUMdrMhjouD/aoQ1WFVxfdbWLKzxJIhAZm+2m9XEBj+RIFDWg6RIu6lNJljvlv/f7TOR39L97LSbGYIDtSNKdax6XpbBdL8so9eaUJ4EBrAU+RZ+zDTxVO6GVsVSTiX/zq0Ej53E8TCLiTI8m0nalxiecBJk3e5qxw4WgUF3VMUZrieydgExcGpImyC+8COeE6G/7l1zX1eTbtTBd3Yqi3RYkRb7nX9G2G4zKY66/A6Ll+Kl95+2wpIK8ieRMrpMY6F311IV3xRrDWbpzcJl2yIL7CYXZE4aZL1vmIzLWpPwtk8h934y7P3TjbDJQrQ4/3SKyNjDH5eg2WcpDuq/m7ThQxiPmJcm7dLDkeZJNkJ7r6eVhxdAEA=
