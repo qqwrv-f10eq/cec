@@ -32,9 +32,9 @@ deploy:
   description: 'โค้ดล่าสุดจาก CEFix Repository'
   provider: GitHub
   auth_token:
-    secure: j+0h0w3HGoF5ZEb3kCkz/i6Tknyak31ZiL10LMlFlFymoxzmssd7Gapy2VZg/WCC # your encrypted token from GitHub
+    secure: j+0h0w3HGoF5ZEb3kCkz/i6Tknyak31ZiL10LMlFlFymoxzmssd7Gapy2VZg/WCC
   draft: false
   prerelease: false
   on:
-    branch: master                 # release from master branch only
-    APPVEYOR_REPO_TAG: true        # deploy on tag push only
+    branch: master
+    APPVEYOR_REPO_TAG: true
