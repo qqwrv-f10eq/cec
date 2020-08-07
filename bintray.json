@@ -5,12 +5,12 @@
     "subject": "aktah"
   },
   "version": {
-    "name": "v1.0"
+    "name": "latest"
   },
   "files": [
     {
       "includePattern": "test/plugins/cec.so",
-      "uploadPattern": "$1",
+      "uploadPattern": "cec.so",
       "matrixParams": {
         "override": 1
       }
