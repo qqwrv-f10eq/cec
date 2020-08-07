@@ -25,13 +25,13 @@ after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
-  
+
+
 deploy:
-  on:
-    all_branches: true
-  provider: bintray
-  file: bintray.json
-  user: aktah
+  provider: releases
   key:
-    secure: XI1Sk19WA8lZHvprzMmzgwPKi80dbQP9eSM8C6SO7SmpFKr71RkXcQP/aJmV1nsZNKeB+8ZICWDVUoOZqh7Ri2mk82RWm2481Imt243XpjUGKSJSsIGT+RGpGIfKcP97zjY/jpsl3nkZRYoFR8fPwL2y0i4fVu1b37eipCf5ibFA+uUDiO/LBbL2dyehmQX2SgCTn2uT6l5tHRR2XeiNDeJWk30CbFI7aHxtJetmIYzzK8+nrXsEmUQu7a1cT0DRTStJB8n6L6qsn2G4sUgUy5YezB4yP7468AA36lF92jE0rh4gQI2leSUMdrMhjouD/aoQ1WFVxfdbWLKzxJIhAZm+2m9XEBj+RIFDWg6RIu6lNJljvlv/f7TOR39L97LSbGYIDtSNKdax6XpbBdL8so9eaUJ4EBrAU+RZ+zDTxVO6GVsVSTiX/zq0Ej53E8TCLiTI8m0nalxiecBJk3e5qxw4WgUF3VMUZrieydgExcGpImyC+8COeE6G/7l1zX1eTbtTBd3Yqi3RYkRb7nX9G2G4zKY66/A6Ll+Kl95+2wpIK8ieRMrpMY6F311IV3xRrDWbpzcJl2yIL7CYXZE4aZL1vmIzLWpPwtk8h934y7P3TjbDJQrQ4/3SKyNjDH5eg2WcpDuq/m7ThQxiPmJcm7dLDkeZJNkJ7r6eVhxdAEA=
+      secure: Q+VluK+TfVvX0AkVKleQevicAdJG59d2Rq17N1TGp6tojG/z5xpUVqOnUBVM7Pl8Wd7v0BN6UcxIsNe8PGX83ys/R8rN9KS4STR0ifDCFUOjBrduYKaI5k4QXoq9RTP4lgNZii83TcjBeKYoCzZ5XkP+HAcC0vVFuA+2T69V5PzfGMKNYoUQcioNVqwvnEtrFO77UcXt97Vd7Wm+XONgpUhaFCIyIk79+nhBn0zqQd8yRD9XZZkyYnJyiXrT0VN/d0A4Y0wnGEedZM8Wk2jozV9sfMq3RWba2j/0hL8HnFReC/NzFFgekKmIzYaMOK+YNjL61GyaqpA1Jl5sz/yocfA4y3jSR8x6ZGzqxcfJN7xt31oMXG2S1aonhyhK77J07ihawxzq3jgYKsBvg9eOCJgv8Iy89YxK1Y9rViUgVbnbHIgmfimHWvSXt2cOF/TIvtTLExaBRSPxVp3W2M68ewRMoEHCSwlFnMUpVxY8S4W5bvB7/VPV0QXx1dxJk8EWIl+jrLZmYX/fB+5Nzvvc3tXs+EYB1O2iU7aGtjrdzgx42pY263v2bE+ZFF2lk4mjqrGcHXaWR1axAZpPEAQ44SAVmFRuW5j17TbFlMF4dLQL2Gz1LpOYPTZyAfB+OkhdOjlQXH+mLEEsZ46CdhoqU6/2TfYjDr00O55KAz8jgBs=
+  file: bintray.json
   skip_cleanup: true
+  on:
+    tags: true
