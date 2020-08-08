@@ -11,10 +11,27 @@ The code here acts as the translation between AMX data types and native types.
 
 unsigned char igor_spaces[] = { ' ', '\n', '\t' };
 
-// this is vowel from Thai language, They will merge to character then embed color will not work
-// Need encoding to "Thai (Windows 874)" for this.
+// This is vowel from Thai language, They will merge to character that will make embed color not work at well
+/*
+	0xD1	0x0E31 #THAI CHARACTER MAI HAN-AKAT
+	0xD4	0x0E34 #THAI CHARACTER SARA I
+	0xD5	0x0E35 #THAI CHARACTER SARA II
+	0xD6	0x0E36 #THAI CHARACTER SARA UE
+	0xD7	0x0E37 #THAI CHARACTER SARA UEE
+	0xD8	0x0E38 #THAI CHARACTER SARA U
+	0xD9	0x0E39 #THAI CHARACTER SARA UU
+	0xDA	0x0E3A #THAI CHARACTER PHINTHU
+	0xE7	0x0E47 #THAI CHARACTER MAITAIKHU
+	0xE8	0x0E48 #THAI CHARACTER MAI EK
+	0xE9	0x0E49 #THAI CHARACTER MAI THO
+	0xEA	0x0E4A #THAI CHARACTER MAI TRI
+	0xEB	0x0E4B #THAI CHARACTER MAI CHATTAWA
+	0xEC	0x0E4C #THAI CHARACTER THANTHAKHAT
+	0xED	0x0E4D #THAI CHARACTER NIKHAHIT
+	0xEE	0x0E4E #THAI CHARACTER YAMAKKAN
+	0xD3	0x0E33 #THAI CHARACTER SARA AM
+*/
 
-// char vowel[] = { 'ั', 'ิ', 'ี', 'ึ', 'ื', 'ุ', 'ู', 'ฺ', '็', '่', '้', '๊', '๋', '์', 'ํ', '๎', 'ำ' };
 unsigned char vowel[] = { 0xd1, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xd3 };
 
 char* subc(const char* input, int offset, int len, char* dest)
@@ -113,19 +130,19 @@ int Natives::CE_Convert(AMX *amx, cell *params)
 				subc(text, i+1, 6, EmbledColor);
 				for (int x = last_check + 1; x < i; x++) 
 				{
-					// find vowel - หาวรรณยุกต์
+					// find vowel
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
-						// Left Shift Color Tag - ขยับไปทางซ้าย
+						// Left Shift Color Tag
 						vowel_count++;
 
-						// after vowel (white space, \n, \t) - หลังวรรณยุกต์เป็นที่ว่าง
+						// after vowel (white space, \n, \t)
 						if  (memchr(igor_spaces, text[x - 1], sizeof(igor_spaces)))
 						{
-							// except some vowel - ยกเว้นพวก สมบัติ, ปฏิบัติ
-							if ((text[x] == 'ิ' && text[x+2] == 'ั'))
+							// except some vowel before white space
+							if ((text[x] & 0xd1) == 0 && (text[x+2] & 0xd4) == 0)
 							{
-								// Right Shift Color Tag - ขยับไปทางขวา
+								// Right Shift Color Tag
 								vowel_count--;
 							}
 						}
@@ -200,19 +217,19 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 				subc(text, i + 1, 6, EmbledColor);
 				for (int x = last_check + 1; x < i; x++) 
 				{
-					// find vowel - หาวรรณยุกต์
+					// find vowel
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
-						// Left Shift Color Tag - ขยับไปทางซ้าย
+						// Left Shift Color Tag
 						vowel_count++;
 
-						// after vowel (white space, \n, \t) - หลังวรรณยุกต์เป็นที่ว่าง
+						// after vowel (white space, \n, \t)
 						if  (memchr(igor_spaces, text[x - 1], sizeof(igor_spaces)))
 						{
-							// except some vowel - ยกเว้นพวก สมบัติ, ปฏิบัติ
-							if ((text[x] == 'ิ' && text[x+2] == 'ั'))
+							// except some vowel before white space
+							if ((text[x] & 0xd1) == 0 && (text[x+2] & 0xd4) == 0)
 							{
-								// Right Shift Color Tag - ขยับไปทางขวา
+								// Right Shift Color Tag
 								vowel_count--;
 							}
 						}
