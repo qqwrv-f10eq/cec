@@ -9,7 +9,7 @@ The code here acts as the translation between AMX data types and native types.
 
 #include "natives.hpp"
 
-unsigned char igor_spaces[] = { ' ', '\n', '\t' };
+unsigned char igor_spaces[] = { ' ', '\r', '\n', '\t' };
 
 // This is vowel from Thai language, They will merge to character that will make embed color not work at well
 /*
