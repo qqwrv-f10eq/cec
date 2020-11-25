@@ -86,6 +86,15 @@ stock CE_Update3DTextLabelText(Text3D:id, color, const text[]) {
 			UpdateDynamic3DTextLabelText(id, color, str);		
 		}
 	#endif
+	#if defined SetDynamicObjectMaterialText
+		stock CE_SetDynamicObjectMaterialText(objectid, materialindex, const text[], materialsize = OBJECT_MATERIAL_SIZE_256x128, const fontface[] = "Arial", fontsize = 24, bold = 1, fontcolor = 0xFFFFFFFF, backcolor = 0, textalignment = 0)
+		{	
+			static str[4096];
+			str[0] = '\0';
+			CE_Convert(text, str);	
+			SetDynamicObjectMaterialText(objectid, materialindex, str, materialsize, fontface, fontsize, bold, fontcolor, backcolor, textalignment);
+		}
+	#endif
 #endif
 
 #if defined cec_auto	
@@ -109,6 +118,16 @@ stock CE_Update3DTextLabelText(Text3D:id, color, const text[]) {
 			#endif		
 			#define UpdateDynamic3DTextLabelText CE_UpdateDynamic3DTextLabelText
 		#endif
+
+		#if defined SetDynamicObjectMaterialText
+			#if defined _ALS_SetDynObjectMaterialText
+				#undef SetDynamicObjectMaterialText
+			#else	
+				#define _ALS_SetDynObjectMaterialText
+			#endif		
+			#define SetDynamicObjectMaterialText CE_SetDynamicObjectMaterialText
+		#endif
+
 	#endif
 
 	#if defined _ALS_Create3DTextLabel
