@@ -1,170 +1,204 @@
+/*
 
-#if defined _inc_CEC_INCLUDE
-	#undef _inc_CEC_INCLUDE
-#endif
+░█▀▀█ ▒█░▄▀ ▀▀█▀▀ ░█▀▀█ ▒█░▒█ 
+▒█▄▄█ ▒█▀▄░ ░▒█░░ ▒█▄▄█ ▒█▀▀█ 
+▒█░▒█ ▒█░▒█ ░▒█░░ ▒█░▒█ ▒█░▒█
+
+ * Copyright (c) 2021, Aktah */
 
 #if defined _CEC_INCLUDE_included
 	#endinput
 #endif
 #define _CEC_INCLUDE_included
 
+#if !defined PAWNRAKNET_INC_
+	#error "Please include Pawn.RakNet"
+#endif
+
+#define	RPC_Create3DTextLabel	36
+#define	RPC_DialogBox			61
+#define	RPC_SendClientMessage	93
 
 native CE_Convert(const input[], output[]);
 native CE_Convert_Dialog(const input[], output[], style = 0);
 native CE_CountTag(const input[]);
 native CE_CountVowel(const input[]);
 
-stock CE_SendClientMessage(playerid, color, const text[])
+enum E_TEXT_STRUCT
 {
-	#if defined _IO_included
-	if (isPlayerAndroid(playerid) != 0) {
-		return SendClientMessage(playerid, color, text);
-	}
-	#endif
-	static str[144];
-	str[0] = '\0';
-	CE_Convert(text, str);
-	return SendClientMessage(playerid, color, str);
-}
+	e_wLabelId,
+	e_dwColor,
+	Float:e_fPosX,
+	Float:e_fPosY,
+	Float:e_fPosZ,
+	Float:e_fDrawDistance,
+	e_byteTestLOS,
+	e_playerId,
+	e_vehicleId,
+	e_szText[4096]
+};
 
-stock CE_SendClientMessageToAll(color, const text[])
+enum PR_Chat
 {
-	static str[144];
-	str[0] = '\0';
-	CE_Convert(text, str);
-	SendClientMessageToAll(color, str);
-	return 1;
-}
+	dwColor,
+	szLength,
+	szMessage[144]
+};
 
-stock CE_ShowPlayerDialog(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[]) {	
-	#if defined _IO_included
-	if (isPlayerAndroid(playerid) != 0) {
-		return ShowPlayerDialog(playerid, dialogid, style, caption, info, button1, button2);
-	}
-	#endif
-	static captionOutput[256], infoOutput[4096];
-	captionOutput[0] = '\0';
-	infoOutput[0] = '\0';
-	CE_Convert_Dialog(caption, captionOutput, DIALOG_STYLE_MSGBOX);
-	CE_Convert_Dialog(info, infoOutput, style);
-	return ShowPlayerDialog(playerid, dialogid, style, captionOutput, infoOutput, button1, button2);
-}	
+enum E_DIALOG_STRUCT
+{
+	e_wDialogID, 			// UINT16
+	e_bDialogStyle, 		// UINT8
+	e_bTitleLength, 		// UINT8
+	e_szTitle[64], 			// char
+	e_bButton1Len, 			// UINT8
+	e_szButton1[61],		// char
+	e_bButton2Len, 			// UINT8
+	e_szButton2[64], 		// char
+	e_szInfo[4096]
+};
 
+#if defined _inc_y_hooks || defined _INC_y_hooks
+	hook OnOutcomingRPC(playerid, rpcid, BitStream:bs)
+#else
+	public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
+#endif
+	{
+		if(rpcid == RPC_SendClientMessage)
+		{	
+			#if defined _IO_included
+			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+				return 1;
+			#endif
 
-stock Text3D:CE_Create3DTextLabel(const text[], color, Float:X, Float:Y, Float:Z, Float:DrawDistance, virtualworld = -1, testLOS = 0) {	
-	static str[4096];
-	str[0] = '\0';
-	CE_Convert(text, str);
-	new Text3D:ce_3dtextid = Create3DTextLabel(str, color, X, Y, Z, DrawDistance, virtualworld, testLOS);	
-	return ce_3dtextid;
-}
+			static rpcData[PR_Chat];
 
-stock CE_Update3DTextLabelText(Text3D:id, color, const text[]) {
-	static str[4096];
-	str[0] = '\0';
-	CE_Convert(text, str);
-	Update3DTextLabelText(id, color, str);
-}
+			BS_ReadUint32(bs, rpcData[dwColor]);
+			BS_ReadUint32(bs, rpcData[szLength]);
+			BS_ReadString(bs, rpcData[szMessage], rpcData[szLength]);
 
-#if defined _streamer_included
-	#if defined CreateDynamic3DTextLabel
-		stock STREAMER_TAG_3D_TEXT_LABEL:CE_CreateDynamic3DTextLabel(const text[], color, Float:x, Float:y, Float:z, Float:drawdistance, attachedplayer = INVALID_PLAYER_ID, attachedvehicle = INVALID_VEHICLE_ID, testlos = 0, worldid = -1, interiorid = -1, playerid = -1, Float:streamdistance = STREAMER_3D_TEXT_LABEL_SD, areaid = -1, priority = 0)	
+			static str[144];
+			str[0] = '\0';
+			CE_Convert(rpcData[szMessage], str);
+		
+			BS_Reset(bs);
+
+			BS_WriteUint32(bs, rpcData[dwColor]);
+			BS_WriteUint32(bs, rpcData[szLength]);
+			BS_WriteString(bs, str);
+
+			PR_SendRPC(bs, playerid, rpcid);
+
+			BS_ResetReadPointer(bs);
+			BS_ResetWritePointer(bs);
+			return 0;
+		}
+		else if(rpcid == RPC_DialogBox)
 		{
+			#if defined _IO_included
+			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+				return 1;
+			#endif
+
+			static dataDialog[E_DIALOG_STRUCT];
+			BS_ReadValue(
+		        bs,
+		        PR_UINT16,  dataDialog[e_wDialogID],
+				PR_UINT8, dataDialog[e_bDialogStyle],
+				PR_UINT8, dataDialog[e_bTitleLength],
+				PR_STRING, dataDialog[e_szTitle], dataDialog[e_bTitleLength],
+				PR_UINT8, dataDialog[e_bButton1Len],
+				PR_STRING, dataDialog[e_szButton1], dataDialog[e_bButton1Len],
+				PR_UINT8, dataDialog[e_bButton2Len],
+				PR_STRING, dataDialog[e_szButton2], dataDialog[e_bButton2Len],
+				PR_CSTRING, dataDialog[e_szInfo], sizeof(dataDialog[e_szInfo])
+		    );
+
+			BS_Reset(bs);
+
+			static captionOutput[256], infoOutput[4096];
+			captionOutput[0] = '\0';
+			infoOutput[0] = '\0';
+
+			CE_Convert_Dialog(dataDialog[e_szTitle], captionOutput, DIALOG_STYLE_MSGBOX);
+			CE_Convert_Dialog(dataDialog[e_szInfo], infoOutput, dataDialog[e_bDialogStyle]);
+
+			BS_WriteValue(
+			    bs,
+			    PR_UINT16, dataDialog[e_wDialogID],
+				PR_UINT8, dataDialog[e_bDialogStyle],
+				PR_UINT8, dataDialog[e_bTitleLength],
+				PR_STRING, captionOutput,
+				PR_UINT8, dataDialog[e_bButton1Len],
+				PR_STRING, dataDialog[e_szButton1], 
+				PR_UINT8, dataDialog[e_bButton2Len],
+				PR_STRING, dataDialog[e_szButton2], 
+				PR_CSTRING, infoOutput
+			);
+
+			PR_SendRPC(bs, playerid, rpcid);
+
+			BS_ResetReadPointer(bs);
+			BS_ResetWritePointer(bs);
+			return 0;
+		}
+		else if(rpcid == RPC_Create3DTextLabel)
+		{
+			#if defined _IO_included
+			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+				return 1;
+			#endif
+
+			static textData[E_TEXT_STRUCT];
+
+			BS_ReadUint16(bs, textData[e_wLabelId]);
+			BS_ReadUint32(bs, textData[e_dwColor]);
+			BS_ReadFloat(bs,textData[e_fPosX]);
+			BS_ReadFloat(bs,textData[e_fPosY]);
+			BS_ReadFloat(bs,textData[e_fPosZ]);
+			BS_ReadFloat(bs, textData[e_fDrawDistance]);
+			BS_ReadUint8(bs, textData[e_byteTestLOS]);
+			BS_ReadUint16(bs, textData[e_playerId]);
+			BS_ReadUint16(bs, textData[e_vehicleId]);
+			BS_ReadCompressedString(bs, textData[e_szText], sizeof(textData[e_szText]));
+
 			static str[4096];
 			str[0] = '\0';
-			CE_Convert(text, str);	
-			new  STREAMER_TAG_3D_TEXT_LABEL:ce_3dtextid = CreateDynamic3DTextLabel(str, color, x, y, z, drawdistance, attachedplayer, attachedvehicle, testlos, worldid, interiorid, playerid, streamdistance, areaid, priority);	
-			return ce_3dtextid;	
+			CE_Convert(textData[e_szText], str);
+
+			BS_Reset(bs);
+
+			BS_WriteUint16(bs, textData[e_wLabelId]);
+			BS_WriteUint32(bs, textData[e_dwColor]);
+			BS_WriteFloat(bs,textData[e_fPosX]);
+			BS_WriteFloat(bs,textData[e_fPosY]);
+			BS_WriteFloat(bs,textData[e_fPosZ]);
+			BS_WriteFloat(bs, textData[e_fDrawDistance]);
+			BS_WriteUint8(bs, textData[e_byteTestLOS]);
+			BS_WriteUint16(bs, textData[e_playerId]);
+			BS_WriteUint16(bs, textData[e_vehicleId]);
+			BS_WriteCompressedString(bs, str);
+
+			PR_SendRPC(bs, playerid, rpcid);
+
+			BS_ResetReadPointer(bs);
+			BS_ResetWritePointer(bs);
+			return 0;
 		}
+		#if defined INCLUDE_OnOutcomingRPC
+			return INCLUDE_OnOutcomingRPC(playerid, rpcid, BitStream:bs);
+		#else
+			return 1;
+		#endif
+	}
+#if !defined _inc_y_hooks && !defined _INC_y_hooks
+	#if defined _ALS_OnOutcomingRPC
+		#undef OnOutcomingRPC
+	#else
+		#define _ALS_OnOutcomingRPC
 	#endif
-	#if defined UpdateDynamic3DTextLabelText
-		stock CE_UpdateDynamic3DTextLabelText(STREAMER_TAG_3D_TEXT_LABEL:id, color, const text[])
-		{	
-			static str[4096];
-			str[0] = '\0';
-			CE_Convert(text, str);	
-			UpdateDynamic3DTextLabelText(id, color, str);		
-		}
-	#endif
-	#if defined SetDynamicObjectMaterialText
-		stock CE_SetDynamicObjectMaterialText(objectid, materialindex, const text[], materialsize = OBJECT_MATERIAL_SIZE_256x128, const fontface[] = "Arial", fontsize = 24, bold = 1, fontcolor = 0xFFFFFFFF, backcolor = 0, textalignment = 0)
-		{	
-			static str[4096];
-			str[0] = '\0';
-			CE_Convert(text, str);	
-			SetDynamicObjectMaterialText(objectid, materialindex, str, materialsize, fontface, fontsize, bold, fontcolor, backcolor, textalignment);
-		}
+	#define OnOutcomingRPC INCLUDE_OnOutcomingRPC
+	#if defined INCLUDE_OnOutcomingRPC
+		forward INCLUDE_OnOutcomingRPC(playerid, rpcid, BitStream:bs);
 	#endif
 #endif
-
-#if defined cec_auto	
-
-	#if defined _streamer_included
-
-		#if defined CreateDynamic3DTextLabel
-			#if defined _ALS_CreateDyn3DTextLabel
-				#undef CreateDynamic3DTextLabel
-			#else	
-				#define _ALS_CreateDyn3DTextLabel
-			#endif
-			#define CreateDynamic3DTextLabel CE_CreateDynamic3DTextLabel
-		#endif
-
-		#if defined UpdateDynamic3DTextLabelText
-			#if defined _ALS_UpdateDyn3DTextLabelText
-				#undef UpdateDynamic3DTextLabelText
-			#else	
-				#define _ALS_UpdateDyn3DTextLabelText
-			#endif		
-			#define UpdateDynamic3DTextLabelText CE_UpdateDynamic3DTextLabelText
-		#endif
-
-		#if defined SetDynamicObjectMaterialText
-			#if defined _ALS_SetDynObjectMaterialText
-				#undef SetDynamicObjectMaterialText
-			#else	
-				#define _ALS_SetDynObjectMaterialText
-			#endif		
-			#define SetDynamicObjectMaterialText CE_SetDynamicObjectMaterialText
-		#endif
-
-	#endif
-
-	#if defined _ALS_Create3DTextLabel
-		#undef Create3DTextLabel	
-	#else	
-		#define _ALS_Create3DTextLabel
-	#endif	
-	#define Create3DTextLabel CE_Create3DTextLabel
-
-	#if defined _ALS_Update3DTextLabelText
-		#undef Update3DTextLabelText	
-	#else	
-		#define _ALS_Update3DTextLabelText
-	#endif	
-	#define Update3DTextLabelText CE_Update3DTextLabelText
-
-	#if defined _ALS_ShowPlayerDialog	
-		#undef ShowPlayerDialog	
-	#else	
-		#define _ALS_ShowPlayerDialog	
-	#endif	
-
-	#define ShowPlayerDialog CE_ShowPlayerDialog	
-
-	#if defined _ALS_SendClientMessage	
-		#undef SendClientMessage	
-	#else	
-		#define _ALS_SendClientMessage	
-	#endif	
-	#define SendClientMessage CE_SendClientMessage
-
-
-	#if defined _ALS_SendClientMessageToAll
-		#undef SendClientMessageToAll
-	#else	
-		#define _ALS_SendClientMessageToAll
-	#endif	
-	#define SendClientMessageToAll CE_SendClientMessageToAll
-
- #endif
