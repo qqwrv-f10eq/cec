@@ -63,12 +63,11 @@ enum E_DIALOG_STRUCT
 	{	
 		if(rpcid == RPC_SendClientMessage)
 		{	
-			if(playerid == -1) // broadcast
-				return 1;
-			
 			#if defined IsPlayerAndroid
-			if(IsPlayerAndroid(playerid))
+			if(playerid != -1 && IsPlayerAndroid(playerid))
+			{
 				return 1;
+			}
 			#endif
 
 			static rpcData[PR_Chat];
@@ -95,12 +94,11 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_DialogBox)
 		{
-			if(playerid == -1) // broadcast
-				return 1;
-				
 			#if defined IsPlayerAndroid
-			if(IsPlayerAndroid(playerid))
+			if(playerid != -1 && IsPlayerAndroid(playerid))
+			{
 				return 1;
+			}
 			#endif
 
 			static dataDialog[E_DIALOG_STRUCT];
@@ -147,12 +145,11 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
-			if(playerid == -1) // broadcast
-				return 1;
-				
 			#if defined IsPlayerAndroid
-			if(IsPlayerAndroid(playerid))
+			if(playerid != -1 && IsPlayerAndroid(playerid))
+			{
 				return 1;
+			}
 			#endif
 
 			static textData[E_TEXT_STRUCT];
