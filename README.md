@@ -72,6 +72,5 @@
 ```Pawn
 #include <a_samp>
 #include <Pawn.RakNet> // <-- จำเป็นต้องมี
-#include <io> // aktah/io ( แนะนำให้ใช้ถ้าเซิร์ฟเวอร์มีผู้เล่นบนมือถือ )
-#include <cec>
+#include <cec> // ถ้ามีผู้เล่นบนมือถือให้โหลดและใช้ Filterscript ตัวนี้ -> https://github.com/Fairuz-Afdhal/IsPlayerUsingAndroid
 ```
