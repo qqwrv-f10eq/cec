@@ -67,3 +67,10 @@
 #include <cec>
 #include <easyDialog> // ถ้ามีให้ใส่ไว้หลัง include cec
 ```
+
+* การติดตั้งสำหรับตั้งแต่ v2.3 ขึ้นไป
+```Pawn
+#include <a_samp>
+#include <io> // aktah/io ( แนะนำให้ใช้ถ้าเซิร์ฟเวอร์มีผู้เล่นบนมือถือ )
+#include <cec>
+```
