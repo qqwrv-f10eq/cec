@@ -7,14 +7,33 @@
 	#error "Please include Pawn.RakNet"
 #endif
 
-// https://github.com/Fairuz-Afdhal/IsPlayerUsingAndroid
-#if !defined IsPlayerAndroid
-	#define IsPlayerAndroid(%0)                 GetPVarInt(%0, "NotAndroid") == 0
+#if defined RPC_Create3DTextLabel
+	#undef RPC_Create3DTextLabel
+	#define RPC_Create3DTextLabel 36
+#else
+	#define RPC_Create3DTextLabel 36
 #endif
 
-#define	RPC_Create3DTextLabel	36
-#define	RPC_DialogBox			61
-#define	RPC_SendClientMessage	93
+#if defined RPC_DialogBox
+	#undef RPC_DialogBox
+	#define RPC_DialogBox 61
+#else
+	#define RPC_DialogBox 61
+#endif
+
+#if defined RPC_SendClientMessage
+	#undef RPC_SendClientMessage
+	#define RPC_SendClientMessage 93
+#else
+	#define RPC_SendClientMessage 93
+#endif
+
+#if defined RPC_CLIENT_JOIN
+	#undef RPC_CLIENT_JOIN
+	#define RPC_CLIENT_JOIN 25
+#else
+	#define RPC_CLIENT_JOIN 25
+#endif
 
 native CE_Convert(const input[], output[]);
 native CE_Convert_Dialog(const input[], output[], style = 0);
@@ -55,20 +74,81 @@ enum E_DIALOG_STRUCT
 	e_szInfo[4096]
 };
 
+enum E_CLIENT_KEY
+{
+	e_clientVersion,
+	e_szAuthKey[44]
+}
+
+static const stock m_szClientVersions[][E_CLIENT_KEY] = {
+	{70, "15121F6F18550C00AC4B4F8A167D0379BB0ACA99043"},
+	{69, "161186A32578A6E62CBD2BB46D56F7F061EDB3A15B0"},	
+	{47, "1031CA8429843C9B8C178B65F3C73602578440D17F8"}
+};
+
+enum E_CLIENT_STRUCT
+{
+	iVersion, 					// INT32 
+	byteMod, 					// UINT8 
+	byteNicknameLen, 			// UINT8 
+	NickName[MAX_PLAYER_NAME],	// char  
+	uiClientChallengeResponse,  // UINT32
+	byteAuthKeyLen, 			// UINT8 
+	auth_key[64], 				// char  
+	iClientVerLen, 				// UINT8 
+	ClientVersion[12]			// char  
+
+};
+
+static bool:playerDevice[MAX_PLAYERS char];
+
+stock bool:io(playerId) { return playerDevice{playerId}; }
+stock setDeviceInfo(playerId, deviceType)
+{
+	playerDevice{playerId} = !!deviceType;
+	return 1;
+}
+
+#if defined _inc_y_hooks || defined _INC_y_hooks
+	hook OnPlayerNotAndroid(playerid)
+#else
+	public OnPlayerNotAndroid(playerid)
+#endif
+	{
+		SetPVarInt(playerid, "NotAndroid", true);
+
+		#if defined INCLUDE_OnPlayerNotAndroid
+			return INCLUDE_OnPlayerNotAndroid(playerid);
+		#else
+			return 1;
+		#endif
+	}
+#if !defined _inc_y_hooks && !defined _INC_y_hooks
+	#if defined _ALS_OnPlayerNotAndroid
+		#undef OnPlayerNotAndroid
+	#else
+		#define _ALS_OnPlayerNotAndroid
+	#endif
+	#define OnPlayerNotAndroid INCLUDE_OnPlayerNotAndroid
+	#if defined INCLUDE_OnPlayerNotAndroid
+		forward INCLUDE_OnPlayerNotAndroid(playerid);
+	#endif
+#endif
+
+
 #if defined _inc_y_hooks || defined _INC_y_hooks
 	hook OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 #else
 	public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 #endif
-	{	
+	{
 		if(rpcid == RPC_SendClientMessage)
 		{	
-			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(playerid != -1 && io(playerid))
 			{
-				return 1;
+				PR_SendRPC(bs, playerid, rpcid);
+				return 0;
 			}
-			#endif
 
 			static rpcData[PR_Chat];
 
@@ -94,12 +174,11 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_DialogBox)
 		{
-			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(playerid != -1 && io(playerid))
 			{
-				return 1;
+				PR_SendRPC(bs, playerid, rpcid);
+				return 0;
 			}
-			#endif
 
 			static dataDialog[E_DIALOG_STRUCT];
 			BS_ReadValue(
@@ -145,12 +224,11 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
-			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(playerid != -1 && io(playerid))
 			{
-				return 1;
+				PR_SendRPC(bs, playerid, rpcid);
+				return 0;
 			}
-			#endif
 
 			static textData[E_TEXT_STRUCT];
 
@@ -205,3 +283,58 @@ enum E_DIALOG_STRUCT
 		forward INCLUDE_OnOutcomingRPC(playerid, rpcid, BitStream:bs);
 	#endif
 #endif
+
+#if defined _inc_y_hooks || defined _INC_y_hooks
+	hook OnIncomingRPC(playerid, rpcid, BitStream:bs)
+#else
+	public OnIncomingRPC(playerid, rpcid, BitStream:bs)
+#endif
+	{
+		if(rpcid == RPC_CLIENT_JOIN)
+		{
+			new dataClient[E_CLIENT_STRUCT];
+			BS_ReadValue(
+				bs,
+				PR_INT32, dataClient[iVersion],
+				PR_UINT8, dataClient[byteMod],
+				PR_UINT8, dataClient[byteNicknameLen],
+				PR_STRING, dataClient[NickName], dataClient[byteNicknameLen],
+				PR_UINT32, dataClient[uiClientChallengeResponse],
+				PR_UINT8, dataClient[byteAuthKeyLen],
+				PR_STRING, dataClient[auth_key], dataClient[byteAuthKeyLen],
+				PR_UINT8, dataClient[iClientVerLen],
+				PR_STRING, dataClient[ClientVersion], dataClient[iClientVerLen]
+			);
+
+			setDeviceInfo(playerid, 0);
+
+			static iter = 0;
+			for(iter = 0; iter < sizeof(m_szClientVersions); iter++)
+			{
+				if(!strcmp(dataClient[auth_key], m_szClientVersions[iter][e_szAuthKey]))
+				{
+					setDeviceInfo(playerid, m_szClientVersions[iter][e_clientVersion]);
+					break;
+				}
+			}
+		}
+
+		#if defined INCLUDE_OnIncomingRPC
+			return INCLUDE_OnIncomingRPC(playerid, rpcid, BitStream:bs);
+		#else
+			return 1;
+		#endif
+	}
+
+#if !defined _inc_y_hooks && !defined _INC_y_hooks
+	#if defined _ALS_OnIncomingRPC
+		#undef OnIncomingRPC
+	#else
+		#define _ALS_OnIncomingRPC
+	#endif
+
+	#define OnIncomingRPC INCLUDE_OnIncomingRPC
+	#if defined INCLUDE_OnIncomingRPC
+		forward INCLUDE_OnIncomingRPC(playerid, rpcid, BitStream:bs);
+	#endif
+#endif 
