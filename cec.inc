@@ -1,11 +1,3 @@
-/*
-
-░█▀▀█ ▒█░▄▀ ▀▀█▀▀ ░█▀▀█ ▒█░▒█ 
-▒█▄▄█ ▒█▀▄░ ░▒█░░ ▒█▄▄█ ▒█▀▀█ 
-▒█░▒█ ▒█░▒█ ░▒█░░ ▒█░▒█ ▒█░▒█
-
- * Copyright (c) 2021, Aktah */
-
 #if defined _CEC_INCLUDE_included
 	#endinput
 #endif
@@ -66,8 +58,8 @@ enum E_DIALOG_STRUCT
 	{
 		if(rpcid == RPC_SendClientMessage)
 		{	
-			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid))
+			#if defined IsPlayerAndroid
+			if(playerid != -1 && IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -95,8 +87,8 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_DialogBox)
 		{
-			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid))
+			#if defined IsPlayerAndroid
+			if(playerid != -1 && IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -144,8 +136,8 @@ enum E_DIALOG_STRUCT
 		}
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
-			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid))
+			#if defined IsPlayerAndroid
+			if(playerid != -1 && IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
