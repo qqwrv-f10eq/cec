@@ -61,10 +61,12 @@ enum E_DIALOG_STRUCT
 	public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 #endif
 	{
+		if(playerid == -1) return false;
+			
 		if(rpcid == RPC_SendClientMessage)
 		{	
 			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -93,7 +95,7 @@ enum E_DIALOG_STRUCT
 		else if(rpcid == RPC_DialogBox)
 		{
 			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -142,7 +144,7 @@ enum E_DIALOG_STRUCT
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
 			#if defined IsPlayerAndroid
-			if(playerid != -1 && IsPlayerAndroid(playerid))
+			if(IsPlayerAndroid(playerid))
 				return 1;
 			#endif
 
