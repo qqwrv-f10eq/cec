@@ -7,6 +7,9 @@
 	#error "Please include Pawn.RakNet"
 #endif
 
+// https://github.com/Fairuz-Afdhal/IsPlayerUsingAndroid
+#define IsPlayerAndroid(%0)                 GetPVarInt(%0, "NotAndroid") == 0
+
 #define	RPC_Create3DTextLabel	36
 #define	RPC_DialogBox			61
 #define	RPC_SendClientMessage	93
