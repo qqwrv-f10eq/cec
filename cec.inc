@@ -67,7 +67,7 @@ enum E_DIALOG_STRUCT
 		if(rpcid == RPC_SendClientMessage)
 		{	
 			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+			if(playerid != -1 && isPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -96,7 +96,7 @@ enum E_DIALOG_STRUCT
 		else if(rpcid == RPC_DialogBox)
 		{
 			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+			if(playerid != -1 && isPlayerAndroid(playerid))
 				return 1;
 			#endif
 
@@ -145,7 +145,7 @@ enum E_DIALOG_STRUCT
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
 			#if defined _IO_included
-			if(playerid != -1 && isPlayerAndroid(playerid) != 0)
+			if(playerid != -1 && isPlayerAndroid(playerid))
 				return 1;
 			#endif
 
