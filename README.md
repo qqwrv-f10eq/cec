@@ -72,5 +72,5 @@
 ```Pawn
 #include <a_samp>
 #include <Pawn.RakNet> // <-- จำเป็นต้องมี
-#include <cec> // ถ้ามีผู้เล่นบนมือถือให้โหลดและใช้ Filterscript ตัวนี้ -> https://github.com/Fairuz-Afdhal/IsPlayerUsingAndroid
+#include <cec> // อยู่ใต้ Pawn.Raknet เสมอ
 ```
