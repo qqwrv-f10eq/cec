@@ -144,10 +144,9 @@ stock setDeviceInfo(playerId, deviceType)
 	{
 		if(rpcid == RPC_SendClientMessage)
 		{	
-			if(playerid != -1 && io(playerid))
+			if(playerid == -1 || (playerid != -1 && io(playerid)))
 			{
-				PR_SendRPC(bs, playerid, rpcid);
-				return 0;
+				return 1;
 			}
 
 			static rpcData[PR_Chat];
@@ -159,25 +158,24 @@ stock setDeviceInfo(playerId, deviceType)
 			static str[144];
 			str[0] = '\0';
 			CE_Convert(rpcData[szMessage], str);
-		
-			BS_Reset(bs);
 
-			BS_WriteUint32(bs, rpcData[dwColor]);
-			BS_WriteUint32(bs, rpcData[szLength]);
-			BS_WriteString(bs, str);
+			new BitStream:bsn = BS_New();
 
-			PR_SendRPC(bs, playerid, rpcid);
+			BS_WriteUint32(bsn, rpcData[dwColor]);
+			BS_WriteUint32(bsn, rpcData[szLength]);
+			BS_WriteString(bsn, str);
 
-			BS_ResetReadPointer(bs);
-			BS_ResetWritePointer(bs);
+			PR_SendRPC(bsn, playerid, rpcid);
+
+			BS_Delete(bsn);
+
 			return 0;
 		}
 		else if(rpcid == RPC_DialogBox)
 		{
-			if(playerid != -1 && io(playerid))
+			if(playerid == -1 || (playerid != -1 && io(playerid)))
 			{
-				PR_SendRPC(bs, playerid, rpcid);
-				return 0;
+				return 1;
 			}
 
 			static dataDialog[E_DIALOG_STRUCT];
@@ -194,7 +192,7 @@ stock setDeviceInfo(playerId, deviceType)
 				PR_CSTRING, dataDialog[e_szInfo], sizeof(dataDialog[e_szInfo])
 		    );
 
-			BS_Reset(bs);
+			new BitStream:bsn = BS_New();
 
 			static captionOutput[256], infoOutput[4096];
 			captionOutput[0] = '\0';
@@ -204,7 +202,7 @@ stock setDeviceInfo(playerId, deviceType)
 			CE_Convert_Dialog(dataDialog[e_szInfo], infoOutput, dataDialog[e_bDialogStyle]);
 
 			BS_WriteValue(
-			    bs,
+			    bsn,
 			    PR_UINT16, dataDialog[e_wDialogID],
 				PR_UINT8, dataDialog[e_bDialogStyle],
 				PR_UINT8, dataDialog[e_bTitleLength],
@@ -216,18 +214,16 @@ stock setDeviceInfo(playerId, deviceType)
 				PR_CSTRING, infoOutput
 			);
 
-			PR_SendRPC(bs, playerid, rpcid);
+			PR_SendRPC(bsn, playerid, rpcid);
 
-			BS_ResetReadPointer(bs);
-			BS_ResetWritePointer(bs);
+			BS_Delete(bsn);
 			return 0;
 		}
 		else if(rpcid == RPC_Create3DTextLabel)
 		{
-			if(playerid != -1 && io(playerid))
+			if(playerid == -1 || (playerid != -1 && io(playerid)))
 			{
-				PR_SendRPC(bs, playerid, rpcid);
-				return 0;
+				return 1;
 			}
 
 			static textData[E_TEXT_STRUCT];
@@ -247,23 +243,22 @@ stock setDeviceInfo(playerId, deviceType)
 			str[0] = '\0';
 			CE_Convert(textData[e_szText], str);
 
-			BS_Reset(bs);
+			new BitStream:bsn = BS_New();
 
-			BS_WriteUint16(bs, textData[e_wLabelId]);
-			BS_WriteUint32(bs, textData[e_dwColor]);
-			BS_WriteFloat(bs,textData[e_fPosX]);
-			BS_WriteFloat(bs,textData[e_fPosY]);
-			BS_WriteFloat(bs,textData[e_fPosZ]);
-			BS_WriteFloat(bs, textData[e_fDrawDistance]);
-			BS_WriteUint8(bs, textData[e_byteTestLOS]);
-			BS_WriteUint16(bs, textData[e_playerId]);
-			BS_WriteUint16(bs, textData[e_vehicleId]);
-			BS_WriteCompressedString(bs, str);
+			BS_WriteUint16(bsn, textData[e_wLabelId]);
+			BS_WriteUint32(bsn, textData[e_dwColor]);
+			BS_WriteFloat(bsn,textData[e_fPosX]);
+			BS_WriteFloat(bsn,textData[e_fPosY]);
+			BS_WriteFloat(bsn,textData[e_fPosZ]);
+			BS_WriteFloat(bsn, textData[e_fDrawDistance]);
+			BS_WriteUint8(bsn, textData[e_byteTestLOS]);
+			BS_WriteUint16(bsn, textData[e_playerId]);
+			BS_WriteUint16(bsn, textData[e_vehicleId]);
+			BS_WriteCompressedString(bsn, str);
 
-			PR_SendRPC(bs, playerid, rpcid);
+			PR_SendRPC(bsn, playerid, rpcid);
 
-			BS_ResetReadPointer(bs);
-			BS_ResetWritePointer(bs);
+			BS_Delete(bsn);
 			return 0;
 		}
 		#if defined INCLUDE_OnOutcomingRPC
