@@ -110,33 +110,6 @@ stock setDeviceInfo(playerId, deviceType)
 }
 
 #if defined _inc_y_hooks || defined _INC_y_hooks
-	hook OnPlayerNotAndroid(playerid)
-#else
-	public OnPlayerNotAndroid(playerid)
-#endif
-	{
-		SetPVarInt(playerid, "NotAndroid", true);
-
-		#if defined INCLUDE_OnPlayerNotAndroid
-			return INCLUDE_OnPlayerNotAndroid(playerid);
-		#else
-			return 1;
-		#endif
-	}
-#if !defined _inc_y_hooks && !defined _INC_y_hooks
-	#if defined _ALS_OnPlayerNotAndroid
-		#undef OnPlayerNotAndroid
-	#else
-		#define _ALS_OnPlayerNotAndroid
-	#endif
-	#define OnPlayerNotAndroid INCLUDE_OnPlayerNotAndroid
-	#if defined INCLUDE_OnPlayerNotAndroid
-		forward INCLUDE_OnPlayerNotAndroid(playerid);
-	#endif
-#endif
-
-
-#if defined _inc_y_hooks || defined _INC_y_hooks
 	hook OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 #else
 	public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
