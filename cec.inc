@@ -110,9 +110,9 @@ stock setDeviceInfo(playerId, deviceType)
 }
 
 #if defined _inc_y_hooks || defined _INC_y_hooks
-	hook OnOutcomingRPC(playerid, rpcid, BitStream:bs)
+	hook OnOutgoingRPC(playerid, rpcid, BitStream:bs)
 #else
-	public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
+	public OnOutgoingRPC(playerid, rpcid, BitStream:bs)
 #endif
 	{
 		if(rpcid == RPC_SendClientMessage)
