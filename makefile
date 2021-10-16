@@ -24,8 +24,8 @@ test-container:
 
 build-container:
 	rm -rf build
-	docker build -t aktah/cec-build .
-	docker run -v $(shell pwd)/test/plugins:/root/test/plugins aktah/cec-build
+	docker build -t Brian-Less/cec .
+	docker run -v $(shell pwd)/test/plugins:/root/test/plugins Brian-Less/cec
 
 # this make target is only run inside the container
 build-inside:

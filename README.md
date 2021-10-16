@@ -8,7 +8,7 @@
 
 หากคุณเป็นผู้ใช้ sampctl
 
-`sampctl p install aktah/cec`
+`sampctl p install Brian-Less/cec`
 
 #### หรือ
 * โหลดไฟล์ที่เข้ากับระบบปฏิบัติการของคุณ (Windows หรือ Linux)
@@ -22,7 +22,7 @@
 
 * โคลนที่เก็บไฟล์
 
-	`git clone https://github.com/aktah/cec.git`
+	`git clone https://github.com/Brian-Less/cec.git`
 
 * ใช้ makefile เพื่อคอมไพและทดสอบ (ควรมี cmake เวอร์ชั่นที่ไม่ต่ำกว่า 3.0) 
 
