@@ -29,8 +29,7 @@ after_failure:
 
 deploy:
   provider: releases
-  api_key:
-    secure: mFaBKwdgLdC4DyUF6AqaGgGCQYym0xsJJ+Y0ysNzxwV6OtZHlCOQxWdBxJZmX/7wZk5QtQBEPMkTBwcb5goVhcZlz9f6sMeYSNUEAxIZRCB7VZ8HRmbqI70V9c5u+M2Vhz/uSsrNp5tNCjS3aCGdas+xJwxiVyivFueuXPRmDuBzksbfqVcaFU94uj6A6F9vlns+x2fwvPqyn7ttmGyQgWpVt0g43JhOMQqAvh/NbkvW1FfrWkc4xv8hOc1+csSLayse+YwScy4EEl64buu6ktcp3AdPw6kBH0+SiIpoFYoKNoRE2XgeQbSuwmeVaw6aVc8SBTDI6kE4Yg7/1OjZ9nkxqg+sKuiwCafEbwL44Op8kKE94G0ccRVJSg8YzN90Dthgxys+GxJE3c6PtF27LL9AVEPcivKrQ88DyWWQOz5jSzr0k/mhF1SQQHb9Wh8SOilnO95SMVyjVazoBDupnn+Ug+ObzEIqvdqgUNNHLqHJuRbNbVda/lFy5U7MfMarlYXxXWtULFyL7iGbc1OEjZWondBNRBZBHG4TVITvBWpaAAn5YIruTbnB9uds1p03WSdHhzNgxnNTuD2VWt7jBke9//458V4/p6DHO+wn853Y1hitM1swPYSlvG67Nk4Wzg4esL1HM33zKVhpSx/M25yPO2Dz/EqTGvqhi9XBJHo=
+  api_key: $GITHUB_TOKEN
   file: "test/plugins/cec.so"
   skip_cleanup: true
   on:
