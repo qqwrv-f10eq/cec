@@ -1,6 +1,6 @@
 # Color Embed Converter
 
-[![Build status](https://ci.appveyor.com/api/projects/status/l1943xkew40t4rcv/branch/master?svg=true)](https://ci.appveyor.com/project/aktah/cec/branch/master) [![Build Status](https://travis-ci.org/aktah/cec.svg?branch=master)](https://travis-ci.org/aktah/cec) ![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)
+[![Build status](https://ci.appveyor.com/api/projects/status/2qswo7s6hk8jiovf?svg=true)](https://ci.appveyor.com/project/Brian-Less/cec/branch/master) [![Build Status](https://app.travis-ci.com/Brian-Less/cec.svg?branch=master)](https://app.travis-ci.com/Brian-Less/cec) ![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)
 
 ปลั๊กอิน CEC ช่วยเลื่อนแท็กสีให้แสดงผลได้อย่างถูกต้อง
 
