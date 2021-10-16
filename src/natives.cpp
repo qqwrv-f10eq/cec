@@ -44,7 +44,7 @@ unsigned char spaces[] = { ' ', '\r', '\t' };
 
 
 	// Bug: 'Bud' (Rarely)
-	// à¸­à¸´à¸šà¸±à¸•à¸´ <--
+	// ÍÔºÑµÔ <--
 
 	char
 		+
@@ -166,7 +166,7 @@ int Natives::CE_Convert(AMX* amx, cell* params)
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
 
-						// à¸´à¸±à¸´ -44 -47 -44
+						// ÔÑÔ -44 -47 -44
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 2] == -47 && text[x - 4] == -44 && onetime_fix_bud == 0)
 						{
 							onetime_fix_bud = 1;
@@ -197,7 +197,7 @@ int Natives::CE_Convert(AMX* amx, cell* params)
 								continue;
 							}
 
-							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // à¸à¸µà¹‰
+							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // ¡Õé
 							{
 								continue;
 							}
@@ -275,7 +275,7 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 				{
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
-						// à¸´à¸±à¸´ -44 -47 -44
+						// ÔÑÔ -44 -47 -44
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 2] == -47 && text[x - 4] == -44 && onetime_fix_bud == 0)
 						{
 							onetime_fix_bud = 1;
@@ -305,7 +305,7 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 								continue;
 							}
 
-							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // à¸à¸µà¹‰
+							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // ¡Õé
 							{
 								continue;
 							}
