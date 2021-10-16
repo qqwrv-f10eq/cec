@@ -1,5 +1,5 @@
 {
-  "user": "aktah",
+  "user": "Brian-Less",
   "repo": "cec",
   "entry": "test.pwn",
   "output": "test/gamemodes/test.amx",
@@ -9,7 +9,7 @@
   ],
   "dev_dependencies": ["pawn-lang/YSI-Includes"],
   "runtime": {
-    "plugins": ["aktah/cec"]
+    "plugins": ["Brian-Less/cec"]
   },
   "resources": [
     {
