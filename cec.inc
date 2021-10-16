@@ -3,6 +3,10 @@
 #endif
 #define _CEC_INCLUDE_included
 
+#if !defined AMX_HEADER_INC
+	#tryinclude <Pawn.RakNet>
+#endif
+
 #if !defined PAWNRAKNET_INC_
 	#error "Please include Pawn.RakNet"
 #endif
@@ -234,21 +238,21 @@ stock setDeviceInfo(playerId, deviceType)
 			BS_Delete(bsn);
 			return 0;
 		}
-		#if defined INCLUDE_OnOutcomingRPC
-			return INCLUDE_OnOutcomingRPC(playerid, rpcid, BitStream:bs);
+		#if defined INCLUDE_OnOutgoingRPC
+			return INCLUDE_OnOutgoingRPC(playerid, rpcid, BitStream:bs);
 		#else
 			return 1;
 		#endif
 	}
 #if !defined _inc_y_hooks && !defined _INC_y_hooks
-	#if defined _ALS_OnOutcomingRPC
-		#undef OnOutcomingRPC
+	#if defined _ALS_OnOutgoingRPC
+		#undef OnOutgoingRPC
 	#else
-		#define _ALS_OnOutcomingRPC
+		#define _ALS_OnOutgoingRPC
 	#endif
-	#define OnOutcomingRPC INCLUDE_OnOutcomingRPC
-	#if defined INCLUDE_OnOutcomingRPC
-		forward INCLUDE_OnOutcomingRPC(playerid, rpcid, BitStream:bs);
+	#define OnOutgoingRPC INCLUDE_OnOutgoingRPC
+	#if defined INCLUDE_OnOutgoingRPC
+		forward INCLUDE_OnOutgoingRPC(playerid, rpcid, BitStream:bs);
 	#endif
 #endif
 
