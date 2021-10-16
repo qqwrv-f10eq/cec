@@ -27,7 +27,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
     logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
 	logprintf("    < cec 2.6 | Copyright 2020-2021 > ");
-    logprintf("     Author: Ak-kawit \"aktah\" Tahae");
+    logprintf("     Author: Ak-kawit \"B-Less\" Tahae");
 	logprintf("   Repository: https://github.com/Brian-Less/cec");
 	logprintf(" ");
 	logprintf("      --------------------------------");
