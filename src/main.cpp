@@ -26,9 +26,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
     pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
     logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
-	logprintf("    < cec 1.0 | Copyright 2020 > ");
-    logprintf("     Author: Ak-kawit \"leaks666\" Tahae");
-	logprintf("   Repository: https://github.com/aktah/cec");
+	logprintf("    < cec 2.6 | Copyright 2020-2021 > ");
+    logprintf("     Author: Ak-kawit \"aktah\" Tahae");
+	logprintf("   Repository: https://github.com/Brian-Less/cec");
 	logprintf(" ");
 	logprintf("      --------------------------------");
     return true;
