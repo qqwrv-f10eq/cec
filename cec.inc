@@ -39,6 +39,20 @@
 	#define RPC_CLIENT_JOIN 25
 #endif
 
+#if defined RPC_SetObjectMaterial
+	#undef RPC_SetObjectMaterial
+	#define RPC_SetObjectMaterial 84
+#else
+	#define RPC_SetObjectMaterial 84
+#endif
+
+#if defined RPC_SetNumberPlate
+	#undef RPC_SetNumberPlate
+	#define RPC_SetNumberPlate 123
+#else
+	#define RPC_SetNumberPlate 123
+#endif
+
 native CE_Convert(const input[], output[]);
 native CE_Convert_Dialog(const input[], output[], style = 0);
 native CE_CountTag(const input[]);
@@ -101,7 +115,22 @@ enum E_CLIENT_STRUCT
 	auth_key[64], 				// char  
 	iClientVerLen, 				// UINT8 
 	ClientVersion[12]			// char  
+};
 
+enum E_OBJECT_MATERIAL
+{
+	wObjectId,
+	byteMaterialType,	// 2
+	byteMaterialIndex,
+	byteMaterialSize,
+	byteLength,
+	szFontName[32+1],
+	byteFontSize,
+	byteFontBold,
+	dwFontColor,
+	dwBackgroundColor,
+	byteAlign,
+	szText[2048+1]
 };
 
 static bool:playerDevice[MAX_PLAYERS char];
@@ -238,6 +267,95 @@ stock setDeviceInfo(playerId, deviceType)
 			BS_Delete(bsn);
 			return 0;
 		}
+		else if(rpcid == RPC_SetObjectMaterial)
+		{
+			if(playerid == -1 || (playerid != -1 && io(playerid)))
+				return 1;
+	
+			static eDataStruct[E_OBJECT_MATERIAL];
+
+			BS_ReadUint16(bs, eDataStruct[wObjectId]);
+			BS_ReadUint8(bs, eDataStruct[byteMaterialType]);
+			if (eDataStruct[byteMaterialType] != 2)
+			{
+				BS_SetReadOffset(bs, 0);
+				return 1;
+			}
+		
+			BS_ReadUint8(bs, eDataStruct[byteMaterialIndex]);
+			BS_ReadUint8(bs, eDataStruct[byteMaterialSize]);
+			BS_ReadUint8(bs, eDataStruct[byteLength]);
+			BS_ReadString(bs, eDataStruct[szFontName], eDataStruct[byteLength]);
+			BS_ReadUint8(bs, eDataStruct[byteFontSize]);
+			BS_ReadUint8(bs, eDataStruct[byteFontBold]);
+			BS_ReadUint32(bs, eDataStruct[dwFontColor]);
+			BS_ReadUint32(bs, eDataStruct[dwBackgroundColor]);
+			BS_ReadUint8(bs, eDataStruct[byteAlign]);
+			BS_ReadCompressedString(bs, eDataStruct[szText], sizeof(eDataStruct[szText]));
+
+			static str[2048+1];
+			str[0] = '\0';
+			CE_Convert(eDataStruct[szText], str);
+
+			new BitStream:bsn = BS_New();
+		
+			BS_WriteUint16(bsn, eDataStruct[wObjectId]);
+			BS_WriteUint8(bsn, eDataStruct[byteMaterialType]);
+			BS_WriteUint8(bsn, eDataStruct[byteMaterialIndex]);
+			BS_WriteUint8(bsn, eDataStruct[byteMaterialSize]);
+			BS_WriteUint8(bsn, eDataStruct[byteLength]);
+			BS_WriteString(bsn, eDataStruct[szFontName]);
+			BS_WriteUint8(bsn, eDataStruct[byteFontSize]);
+			BS_WriteUint8(bsn, eDataStruct[byteFontBold]);
+			BS_WriteUint32(bsn, eDataStruct[dwFontColor]);
+			BS_WriteUint32(bsn, eDataStruct[dwBackgroundColor]);
+			BS_WriteUint8(bsn, eDataStruct[byteAlign]);
+			BS_WriteCompressedString(bsn, str);
+
+			PR_SendRPC(bsn, playerid, rpcid);
+
+			BS_Delete(bsn);
+			return 0;
+		}
+		else if(rpcid == RPC_SetNumberPlate)
+		{
+			if(playerid == -1 || (playerid != -1 && io(playerid)))
+			{
+				return 1;
+			}
+
+			new 
+				vehicleId, 
+				byteLen,
+				szNumberPlate[32+1];
+
+			BS_ReadValue(
+		        bs,
+				PR_UINT16,  vehicleId,
+		        PR_UINT8,  byteLen,
+				PR_STRING, szNumberPlate, byteLen
+			
+		    );
+
+			new BitStream:bsn = BS_New();
+		
+			static str[32+1];
+			str[0] = '\0';
+			CE_Convert(szNumberPlate, str);
+
+			BS_WriteValue(
+			    bsn,
+			    PR_UINT16, vehicleId,
+				PR_UINT8, byteLen,
+				PR_STRING, str
+			);
+
+			PR_SendRPC(bsn, playerid, rpcid);
+
+			BS_Delete(bsn);
+			return 0;
+		}
+		
 		#if defined INCLUDE_OnOutgoingRPC
 			return INCLUDE_OnOutgoingRPC(playerid, rpcid, BitStream:bs);
 		#else
