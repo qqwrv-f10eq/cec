@@ -17,6 +17,10 @@ In SA:MP, color tags use the format `{RRGGBB}` to colorize text. However, when t
 ### Features
 
 - **Automatic Color Tag Correction:** Intelligently shifts color tags to proper positions
+- **Width-Based Padding:** Accounts for different visual widths of Thai marks (v2.7+)
+  - Wide marks (ี ื ำ) use 2x padding for accurate spacing
+  - Standard marks use 1x padding
+  - Handles multiple stacked marks correctly
 - **Thai Language Support:** Handles Thai vowel marks (อิ, อี, อึ, อื, etc.) and tone marks (่, ้, ๊, ๋, etc.)
 - **API Functions:**
   - `CE_Convert()` - Convert text with correct color tag positions
@@ -110,6 +114,10 @@ cmake .. -G "Visual Studio 10 2010"
 ### ฟีเจอร์
 
 - **แก้ไขตำแหน่งแท็กสีอัตโนมัติ:** เลื่อนแท็กสีไปยังตำแหน่งที่ถูกต้องอย่างชาญฉลาด
+- **ระบบ Padding ตามความกว้างของตัวอักษร (v2.7+):** คำนึงถึงความกว้างที่แตกต่างกันของแต่ละสระและวรรณยุกต์
+  - สระกว้าง (ี ื ำ) ใช้ padding 2 เท่าเพื่อความแม่นยำ
+  - สระและวรรณยุกต์ปกติใช้ padding 1 เท่า
+  - รองรับการซ้อนหลายตัวอักษรได้อย่างถูกต้อง
 - **รองรับภาษาไทย:** รองรับสระและวรรณยุกต์ทุกตัว
 - **ฟังก์ชัน API:**
   - `CE_Convert()` - แปลงข้อความให้แท็กสีอยู่ในตำแหน่งที่ถูกต้อง
