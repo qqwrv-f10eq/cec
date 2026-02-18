@@ -1,8 +1,105 @@
-# Color Embed Converter
+# Color Embed Converter (CEC)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/2qswo7s6hk8jiovf?svg=true)](https://ci.appveyor.com/project/Brian-Less/cec/branch/master) [![Build Status](https://app.travis-ci.com/Brian-Less/cec.svg?branch=master)](https://app.travis-ci.com/Brian-Less/cec) ![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)
 
-ปลั๊กอิน CEC ช่วยเลื่อนแท็กสีให้แสดงผลได้อย่างถูกต้อง
+## What is CEC?
+
+**CEC (Color Embed Converter)** is a SA:MP (San Andreas Multiplayer) plugin that fixes color tag rendering issues in text, especially for languages with complex character compositions like Thai.
+
+### The Problem It Solves
+
+In SA:MP, color tags use the format `{RRGGBB}` to colorize text. However, when text contains special characters like Thai vowel marks (sara) and tone marks, these characters can merge with adjacent characters, causing color tags to shift incorrectly and breaking text display.
+
+**Example:**
+- **Before CEC:** `ทด{FFFF00}สอ้บข้องค{FFFFFF}นสบาย` → Renders incorrectly
+- **After CEC:** Text renders with correct color positioning and proper character alignment
+
+### Features
+
+- **Automatic Color Tag Correction:** Intelligently shifts color tags to proper positions
+- **Thai Language Support:** Handles Thai vowel marks (อิ, อี, อึ, อื, etc.) and tone marks (่, ้, ๊, ๋, etc.)
+- **API Functions:**
+  - `CE_Convert()` - Convert text with correct color tag positions
+  - `CE_Convert_Dialog()` - Convert dialog text with color corrections
+  - `CE_CountTag()` - Count color tags in text
+  - `CE_CountVowel()` - Count Thai vowel marks in text
+
+---
+
+## Installation
+
+### Using sampctl (Recommended)
+
+```bash
+sampctl p install Brian-Less/cec
+```
+
+### Manual Installation
+
+1. Download the plugin file for your operating system (Windows or Linux)
+2. Place it in your `plugins` folder
+3. Add `cec` (or `cec.so` for Linux) to your `server.cfg`
+4. Include [cec.inc](cec.inc) in your Pawn code
+
+### Usage (v2.3+)
+
+```pawn
+#include <a_samp>
+#include <Pawn.RakNet>  // Required dependency
+#include <cec>          // Always include after Pawn.RakNet
+```
+
+**Basic Example:**
+```pawn
+new input[144] = "ทด{FFFF00}สอบของค{FFFFFF}นสบาย";
+new output[144];
+CE_Convert(input, output);
+// output now contains properly formatted text
+```
+
+## Building from Source
+
+**Note:** Only needed if you want to contribute or modify the plugin.
+
+### Prerequisites
+- [sampctl](https://github.com/Southclaws/sampctl) for testing
+- CMake 3.0 or higher
+- C++ compiler
+
+### Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Brian-Less/cec.git
+```
+
+2. Prepare test environment:
+```bash
+make test-setup
+```
+
+3. Run tests:
+```bash
+make test-native
+```
+
+4. Build the plugin:
+```bash
+make build-inside
+```
+
+Or manually:
+```bash
+mkdir build
+cd build
+cmake .. -G "Visual Studio 10 2010"
+```
+
+---
+
+## ภาษาไทย
+
+ปลั๊กอิน CEC ช่วยเลื่อนแท็กสีให้แสดงผลได้อย่างถูกต้อง โดยเฉพาะกับข้อความภาษาไทยที่มีสระและวรรณยุกต์
 
 ## การติดตั้ง
 
