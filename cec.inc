@@ -368,6 +368,12 @@ stock setDeviceInfo(playerId, deviceType)
 	#else
 		#define _ALS_OnOutgoingRPC
 	#endif
+	// Handle deprecated OnOutcomingRPC for backward compatibility
+	#if defined _ALS_OnOutcomingRPC
+		#undef OnOutcomingRPC
+	#else
+		#define _ALS_OnOutcomingRPC
+	#endif
 	#define OnOutgoingRPC INCLUDE_OnOutgoingRPC
 	#if defined INCLUDE_OnOutgoingRPC
 		forward INCLUDE_OnOutgoingRPC(playerid, rpcid, BitStream:bs);
