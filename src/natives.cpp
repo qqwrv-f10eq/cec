@@ -44,7 +44,7 @@ unsigned char spaces[] = { ' ', '\r', '\t' };
 
 
 	// Bug: 'Bud' (Rarely)
-	// Õ‘∫—µ‘ <--
+	// ÔøΩ‘∫—µÔøΩ <--
 
 	char
 		+
@@ -63,6 +63,24 @@ unsigned char vowel[] = { 0xd1, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe7, 
 
 unsigned char bugSaraI[] = { '\n', '\r', '\t' };
 unsigned char SaraAir[] = { 0xD4, 0xD5, 0xD6, 0xD7 };
+
+// Get the visual width/padding value for a Thai vowel or tone mark
+// Different marks have different visual widths that affect text spacing
+int getMarkWidth(unsigned char mark)
+{
+	// Wide marks that need more padding (2 units)
+	// SARA II (‡∏µ), SARA UEE (‡∏∑), SARA AM (‡∏≥)
+	if (mark == 0xD5 || mark == 0xD7 || mark == 0xD3)
+	{
+		return 2;
+	}
+	
+	// All other marks use standard padding (1 unit)
+	// This includes: MAI HAN-AKAT, SARA I, SARA UE, SARA U, SARA UU, PHINTHU,
+	// MAITAIKHU, tone marks (MAI EK, MAI THO, MAI TRI, MAI CHATTAWA),
+	// THANTHAKHAT, NIKHAHIT, YAMAKKAN
+	return 1;
+}
 
 char* subc(const char* input, int offset, int len, char* dest)
 {
@@ -166,7 +184,7 @@ int Natives::CE_Convert(AMX* amx, cell* params)
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
 
-						// ‘—‘ -44 -47 -44
+						// ÔøΩÔøΩÔøΩ -44 -47 -44
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 2] == -47 && text[x - 4] == -44 && onetime_fix_bud == 0)
 						{
 							onetime_fix_bud = 1;
@@ -175,7 +193,7 @@ int Natives::CE_Convert(AMX* amx, cell* params)
 
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 1] == -69 && memchr(bugSaraI, text[x + 2], sizeof(bugSaraI)))
 						{
-							vowel_count++;
+							vowel_count += getMarkWidth((unsigned char)text[x]);
 							continue;
 						}
 
@@ -197,13 +215,13 @@ int Natives::CE_Convert(AMX* amx, cell* params)
 								continue;
 							}
 
-							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // °’È
+							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // ÔøΩÔøΩÔøΩ
 							{
 								continue;
 							}
 						}
 
-						vowel_count++;
+						vowel_count += getMarkWidth((unsigned char)text[x]);
 					}
 				}
 				if (vowel_count > 0) shiftLeft(text, EmbledColor, i, vowel_count);
@@ -275,7 +293,7 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 				{
 					if (memchr(vowel, text[x], sizeof(vowel)))
 					{
-						// ‘—‘ -44 -47 -44
+						// ÔøΩÔøΩÔøΩ -44 -47 -44
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 2] == -47 && text[x - 4] == -44 && onetime_fix_bud == 0)
 						{
 							onetime_fix_bud = 1;
@@ -284,7 +302,7 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 
 						if ((text[x] & 0xD4) == 0xD4 && text[x - 1] == -69 && memchr(bugSaraI, text[x + 2], sizeof(bugSaraI)))
 						{
-							vowel_count++;
+							vowel_count += getMarkWidth((unsigned char)text[x]);
 							continue;
 						}
 
@@ -305,12 +323,12 @@ int Natives::CE_Convert_Dialog(AMX *amx, cell *params)
 								continue;
 							}
 
-							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // °’È
+							if ((text[x] & 0xE9) == 0xE9 && (text[x - 1] & 0xD5) == 0xD5 && (text[x - 2]) == -95) // ÔøΩÔøΩÔøΩ
 							{
 								continue;
 							}
 						}
-						vowel_count++;
+						vowel_count += getMarkWidth((unsigned char)text[x]);
 					}
 				}
 				if (vowel_count > 0) 
