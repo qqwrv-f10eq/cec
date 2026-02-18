@@ -11,7 +11,7 @@
 In SA:MP, color tags use the format `{RRGGBB}` to colorize text. However, when text contains special characters like Thai vowel marks (sara) and tone marks, these characters can merge with adjacent characters, causing color tags to shift incorrectly and breaking text display.
 
 **Example:**
-- **Before CEC:** `ทด{FFFF00}สอ้บข้องค{FFFFFF}นสบาย` → Renders incorrectly
+- **Before CEC:** `ทด{FFFF00}สอบของค{FFFFFF}นสบาย` → Renders incorrectly
 - **After CEC:** Text renders with correct color positioning and proper character alignment
 
 ### Features
@@ -99,7 +99,25 @@ cmake .. -G "Visual Studio 10 2010"
 
 ## ภาษาไทย
 
-ปลั๊กอิน CEC ช่วยเลื่อนแท็กสีให้แสดงผลได้อย่างถูกต้อง โดยเฉพาะกับข้อความภาษาไทยที่มีสระและวรรณยุกต์
+### CEC คืออะไร?
+
+**CEC (Color Embed Converter)** เป็นปลั๊กอินสำหรับ SA:MP (San Andreas Multiplayer) ที่ช่วยแก้ไขปัญหาการแสดงผลแท็กสีในข้อความ โดยเฉพาะกับภาษาไทยที่มีสระและวรรณยุกต์
+
+### ปัญหาที่ CEC แก้ไข
+
+ใน SA:MP แท็กสีใช้รูปแบบ `{RRGGBB}` เพื่อใส่สีให้กับข้อความ แต่เมื่อข้อความมีอักขระพิเศษ เช่น สระ (อิ, อี, อึ, อื, ฯลฯ) และวรรณยุกต์ (่, ้, ๊, ๋, ฯลฯ) ของภาษาไทย อักขระเหล่านี้จะรวมตัวกับอักขระข้างเคียง ทำให้แท็กสีเลื่อนไปอย่างไม่ถูกต้องและทำให้การแสดงผลพัง
+
+### ฟีเจอร์
+
+- **แก้ไขตำแหน่งแท็กสีอัตโนมัติ:** เลื่อนแท็กสีไปยังตำแหน่งที่ถูกต้องอย่างชาญฉลาด
+- **รองรับภาษาไทย:** รองรับสระและวรรณยุกต์ทุกตัว
+- **ฟังก์ชัน API:**
+  - `CE_Convert()` - แปลงข้อความให้แท็กสีอยู่ในตำแหน่งที่ถูกต้อง
+  - `CE_Convert_Dialog()` - แปลงข้อความไดอะล็อกพร้อมแก้ไขสี
+  - `CE_CountTag()` - นับจำนวนแท็กสีในข้อความ
+  - `CE_CountVowel()` - นับจำนวนสระในข้อความ
+
+---
 
 ## การติดตั้ง
 
