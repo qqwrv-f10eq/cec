@@ -1,8 +1,131 @@
-# Color Embed Converter
+# Color Embed Converter (CEC)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/2qswo7s6hk8jiovf?svg=true)](https://ci.appveyor.com/project/Brian-Less/cec/branch/master) [![Build Status](https://app.travis-ci.com/Brian-Less/cec.svg?branch=master)](https://app.travis-ci.com/Brian-Less/cec) ![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)
 
-ปลั๊กอิน CEC ช่วยเลื่อนแท็กสีให้แสดงผลได้อย่างถูกต้อง
+## What is CEC?
+
+**CEC (Color Embed Converter)** is a SA:MP (San Andreas Multiplayer) plugin that fixes color tag rendering issues in text, especially for languages with complex character compositions like Thai.
+
+### The Problem It Solves
+
+In SA:MP, color tags use the format `{RRGGBB}` to colorize text. However, when text contains special characters like Thai vowel marks (sara) and tone marks, these characters can merge with adjacent characters, causing color tags to shift incorrectly and breaking text display.
+
+**Example:**
+- **Before CEC:** `ทด{FFFF00}สอบของค{FFFFFF}นสบาย` → Renders incorrectly
+- **After CEC:** Text renders with correct color positioning and proper character alignment
+
+### Features
+
+- **Automatic Color Tag Correction:** Intelligently shifts color tags to proper positions
+- **Width-Based Padding:** Accounts for different visual widths of Thai marks (v2.7+)
+  - Wide marks (ี ื ำ) use 2x padding for accurate spacing
+  - Standard marks use 1x padding
+  - Handles multiple stacked marks correctly
+- **Thai Language Support:** Handles Thai vowel marks (อิ, อี, อึ, อื, etc.) and tone marks (่, ้, ๊, ๋, etc.)
+- **API Functions:**
+  - `CE_Convert()` - Convert text with correct color tag positions
+  - `CE_Convert_Dialog()` - Convert dialog text with color corrections
+  - `CE_CountTag()` - Count color tags in text
+  - `CE_CountVowel()` - Count Thai vowel marks in text
+
+---
+
+## Installation
+
+### Using sampctl (Recommended)
+
+```bash
+sampctl p install Brian-Less/cec
+```
+
+### Manual Installation
+
+1. Download the plugin file for your operating system (Windows or Linux)
+2. Place it in your `plugins` folder
+3. Add `cec` (or `cec.so` for Linux) to your `server.cfg`
+4. Include [cec.inc](cec.inc) in your Pawn code
+
+### Usage (v2.3+)
+
+```pawn
+#include <a_samp>
+#include <Pawn.RakNet>  // Required dependency
+#include <cec>          // Always include after Pawn.RakNet
+```
+
+**Basic Example:**
+```pawn
+new input[144] = "ทด{FFFF00}สอบของค{FFFFFF}นสบาย";
+new output[144];
+CE_Convert(input, output);
+// output now contains properly formatted text
+```
+
+## Building from Source
+
+**Note:** Only needed if you want to contribute or modify the plugin.
+
+### Prerequisites
+- [sampctl](https://github.com/Southclaws/sampctl) for testing
+- CMake 3.0 or higher
+- C++ compiler
+
+### Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Brian-Less/cec.git
+```
+
+2. Prepare test environment:
+```bash
+make test-setup
+```
+
+3. Run tests:
+```bash
+make test-native
+```
+
+4. Build the plugin:
+```bash
+make build-inside
+```
+
+Or manually:
+```bash
+mkdir build
+cd build
+cmake .. -G "Visual Studio 10 2010"
+```
+
+---
+
+## ภาษาไทย
+
+### CEC คืออะไร?
+
+**CEC (Color Embed Converter)** เป็นปลั๊กอินสำหรับ SA:MP (San Andreas Multiplayer) ที่ช่วยแก้ไขปัญหาการแสดงผลแท็กสีในข้อความ โดยเฉพาะกับภาษาไทยที่มีสระและวรรณยุกต์
+
+### ปัญหาที่ CEC แก้ไข
+
+ใน SA:MP แท็กสีใช้รูปแบบ `{RRGGBB}` เพื่อใส่สีให้กับข้อความ แต่เมื่อข้อความมีอักขระพิเศษ เช่น สระ (อิ, อี, อึ, อื, ฯลฯ) และวรรณยุกต์ (่, ้, ๊, ๋, ฯลฯ) ของภาษาไทย อักขระเหล่านี้จะรวมตัวกับอักขระข้างเคียง ทำให้แท็กสีเลื่อนไปอย่างไม่ถูกต้องและทำให้การแสดงผลพัง
+
+### ฟีเจอร์
+
+- **แก้ไขตำแหน่งแท็กสีอัตโนมัติ:** เลื่อนแท็กสีไปยังตำแหน่งที่ถูกต้องอย่างชาญฉลาด
+- **ระบบ Padding ตามความกว้างของตัวอักษร (v2.7+):** คำนึงถึงความกว้างที่แตกต่างกันของแต่ละสระและวรรณยุกต์
+  - สระกว้าง (ี ื ำ) ใช้ padding 2 เท่าเพื่อความแม่นยำ
+  - สระและวรรณยุกต์ปกติใช้ padding 1 เท่า
+  - รองรับการซ้อนหลายตัวอักษรได้อย่างถูกต้อง
+- **รองรับภาษาไทย:** รองรับสระและวรรณยุกต์ทุกตัว
+- **ฟังก์ชัน API:**
+  - `CE_Convert()` - แปลงข้อความให้แท็กสีอยู่ในตำแหน่งที่ถูกต้อง
+  - `CE_Convert_Dialog()` - แปลงข้อความไดอะล็อกพร้อมแก้ไขสี
+  - `CE_CountTag()` - นับจำนวนแท็กสีในข้อความ
+  - `CE_CountVowel()` - นับจำนวนสระในข้อความ
+
+---
 
 ## การติดตั้ง
 

@@ -26,9 +26,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
     pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
     logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
-	logprintf("    < cec 2.6 | Copyright 2020-2021 > ");
+	logprintf("    < cec 2.7 | Copyright 2020-2026 > ");
     logprintf("     Author: Ak-kawit \"B-Less\" Tahae");
 	logprintf("   Repository: https://github.com/Brian-Less/cec");
+	logprintf("  Enhancement: Width-based mark padding");
 	logprintf(" ");
 	logprintf("      --------------------------------");
     return true;
