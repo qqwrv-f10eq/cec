@@ -5,7 +5,7 @@
   "output": "test/gamemodes/test.amx",
   "dependencies": [
     "sampctl/samp-stdlib",
-    "katursis/Pawn.RakNet"
+    "katursis/Pawn.RakNet:1.6.0"
   ],
   "dev_dependencies": ["pawn-lang/YSI-Includes"],
   "runtime": {
