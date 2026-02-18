@@ -368,13 +368,14 @@ stock setDeviceInfo(playerId, deviceType)
 	#else
 		#define _ALS_OnOutgoingRPC
 	#endif
-	// Handle deprecated OnOutcomingRPC for backward compatibility
+	// Handle deprecated OnOutcomingRPC for backward compatibility with old Pawn.RakNet versions
 	#if defined _ALS_OnOutcomingRPC
 		#undef OnOutcomingRPC
 	#else
 		#define _ALS_OnOutcomingRPC
 	#endif
 	#define OnOutgoingRPC INCLUDE_OnOutgoingRPC
+	#define OnOutcomingRPC INCLUDE_OnOutgoingRPC
 	#if defined INCLUDE_OnOutgoingRPC
 		forward INCLUDE_OnOutgoingRPC(playerid, rpcid, BitStream:bs);
 	#endif
