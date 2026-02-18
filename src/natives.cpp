@@ -64,13 +64,16 @@ unsigned char vowel[] = { 0xd1, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe7, 
 unsigned char bugSaraI[] = { '\n', '\r', '\t' };
 unsigned char SaraAir[] = { 0xD4, 0xD5, 0xD6, 0xD7 };
 
+// Wide Thai marks that need extra padding due to their visual width
+unsigned char WideMarks[] = { 0xD5, 0xD7, 0xD3 };  // SARA II, SARA UEE, SARA AM
+
 // Get the visual width/padding value for a Thai vowel or tone mark
 // Different marks have different visual widths that affect text spacing
 int getMarkWidth(unsigned char mark)
 {
 	// Wide marks that need more padding (2 units)
 	// SARA II (ี), SARA UEE (ื), SARA AM (ำ)
-	if (mark == 0xD5 || mark == 0xD7 || mark == 0xD3)
+	if (memchr(WideMarks, mark, sizeof(WideMarks)))
 	{
 		return 2;
 	}
